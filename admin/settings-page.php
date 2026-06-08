@@ -8,65 +8,36 @@
 <?php wp_nonce_field( 'sb_save', 'sb_nonce' ); ?>
 
 <nav class="nav-tab-wrapper sb-tabs">
-	<a href="#sb-tab-branding"      class="nav-tab nav-tab-active"><?php esc_html_e( 'Branding',        'simply-branded' ); ?></a>
-	<a href="#sb-tab-sections"      class="nav-tab"               ><?php esc_html_e( 'Section Colors',  'simply-branded' ); ?></a>
-	<a href="#sb-tab-fonts"         class="nav-tab"               ><?php esc_html_e( 'Fonts',           'simply-branded' ); ?></a>
-	<a href="#sb-tab-custom-css"    class="nav-tab"               ><?php esc_html_e( 'Custom CSS',      'simply-branded' ); ?></a>
+	<a href="#sb-tab-colors"     class="nav-tab nav-tab-active"><?php esc_html_e( 'Brand Colors',  'simply-branded' ); ?></a>
+	<a href="#sb-tab-fonts"      class="nav-tab"               ><?php esc_html_e( 'Fonts',         'simply-branded' ); ?></a>
+	<a href="#sb-tab-custom-css" class="nav-tab"               ><?php esc_html_e( 'Custom CSS',    'simply-branded' ); ?></a>
 </nav>
 
 
-<!-- ── BRANDING ──────────────────────────────────────────────────── -->
-<div id="sb-tab-branding" class="sb-tab-panel">
+<!-- ── BRAND COLORS ──────────────────────────────────────────────── -->
+<div id="sb-tab-colors" class="sb-tab-panel">
 
-	<?php sb_section_header( __( 'Accent & Buttons', 'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'accent',     __( 'Accent color',       'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'accent_text', __( 'Accent text',        'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'accent_hover', __( 'Accent hover',      'simply-branded' ) ); ?>
+	<?php sb_section_header( __( 'Brand Palette', 'simply-branded' ) ); ?>
+	<p class="description" style="margin-bottom:20px"><?php esc_html_e( 'These five colors drive the entire site — sections, navigation, buttons, and links are all derived automatically.', 'simply-branded' ); ?></p>
 
-	<?php sb_section_header( __( 'Page', 'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'bg',         __( 'Background',          'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'text',       __( 'Body text',           'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'heading',    __( 'Headings',            'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'link',       __( 'Links',               'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'link_hover', __( 'Links (hover)',       'simply-branded' ) ); ?>
+	<?php sb_color_row( $s, 'light_neutral', __( 'Light Neutral', 'simply-branded' ),  __( 'Page background and light sections', 'simply-branded' ) ); ?>
+	<?php sb_color_row( $s, 'dark_neutral',  __( 'Dark Neutral',  'simply-branded' ),  __( 'Dark sections and navigation background', 'simply-branded' ) ); ?>
+	<?php sb_color_row( $s, 'brand1',        __( 'Brand Color 1', 'simply-branded' ),  __( 'Primary brand color — Brand 1 section background', 'simply-branded' ) ); ?>
+	<?php sb_color_row( $s, 'brand2',        __( 'Brand Color 2', 'simply-branded' ),  __( 'Secondary brand color — Brand 2 section background. Leave empty to use Highlight.', 'simply-branded' ), true ); ?>
+	<?php sb_color_row( $s, 'highlight',     __( 'Highlight',     'simply-branded' ),  __( 'Buttons, links, and section accents', 'simply-branded' ) ); ?>
+	<?php sb_color_row( $s, 'highlight2',    __( 'Highlight 2',   'simply-branded' ),  __( 'Secondary accent — hover states. Leave empty to auto-darken Highlight.', 'simply-branded' ), true ); ?>
 
-	<?php sb_section_header( __( 'Navigation', 'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'nav_bg',             __( 'Nav background',   'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'nav_text',           __( 'Nav links',        'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'nav_highlight',      __( 'Nav highlight',    'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'nav_highlight_text', __( 'Nav highlight text','simply-branded' ) ); ?>
+	<?php sb_section_header( __( 'Buttons &amp; Shapes', 'simply-branded' ) ); ?>
 
-</div><!-- #sb-tab-branding -->
+	<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+		<label style="width:180px;font-weight:500"><?php esc_html_e( 'Button border radius', 'simply-branded' ); ?></label>
+		<div style="display:flex;align-items:center;gap:6px">
+			<input type="number" name="sb[border_radius]" value="<?php echo esc_attr( $s['border_radius'] ); ?>" min="0" max="100" style="width:70px">
+			<span class="description">px &nbsp;(0 = square, 4–8 = rounded, 100 = pill)</span>
+		</div>
+	</div>
 
-
-<!-- ── SECTION COLORS ────────────────────────────────────────────── -->
-<div id="sb-tab-sections" class="sb-tab-panel" style="display:none">
-
-	<?php sb_section_header( __( 'Dark Section (.is-dark)', 'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'dark_bg',        __( 'Background',  'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'dark_text',      __( 'Body text',   'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'dark_heading',   __( 'Headings',    'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'dark_highlight', __( 'Highlight',   'simply-branded' ) ); ?>
-
-	<?php sb_section_header( __( 'Light Section (.is-light)', 'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'light_bg',        __( 'Background',  'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'light_text',      __( 'Body text',   'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'light_heading',   __( 'Headings',    'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'light_highlight', __( 'Highlight',   'simply-branded' ) ); ?>
-
-	<?php sb_section_header( __( 'Brand 1 Section (.is-brand-1)', 'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand1_bg',        __( 'Background',  'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand1_text',      __( 'Body text',   'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand1_heading',   __( 'Headings',    'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand1_highlight', __( 'Highlight',   'simply-branded' ) ); ?>
-
-	<?php sb_section_header( __( 'Brand 2 Section (.is-brand-2)', 'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand2_bg',        __( 'Background',  'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand2_text',      __( 'Body text',   'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand2_heading',   __( 'Headings',    'simply-branded' ) ); ?>
-	<?php sb_color_row( $s, 'brand2_highlight', __( 'Highlight',   'simply-branded' ) ); ?>
-
-</div><!-- #sb-tab-sections -->
+</div><!-- #sb-tab-colors -->
 
 
 <!-- ── FONTS ─────────────────────────────────────────────────────── -->
@@ -81,7 +52,7 @@
 
 	<?php sb_section_header( __( 'Font Loading', 'simply-branded' ) ); ?>
 
-	<?php sb_text_row( $s, 'google_fonts_url', __( 'Google Fonts URL', 'simply-branded' ), __( 'Paste the full URL from fonts.google.com embed code', 'simply-branded' ) ); ?>
+	<?php sb_text_row( $s, 'google_fonts_url', __( 'Google Fonts URL',   'simply-branded' ), __( 'Paste the full URL from fonts.google.com embed code', 'simply-branded' ) ); ?>
 	<?php sb_text_row( $s, 'typekit_id',       __( 'Adobe Fonts Kit ID', 'simply-branded' ), __( 'The kit ID from use.typekit.net/KITID.js', 'simply-branded' ) ); ?>
 
 </div><!-- #sb-tab-fonts -->
@@ -106,10 +77,15 @@ function sb_section_header( $title ) {
 	echo '<h2 style="margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid #ddd">' . esc_html( $title ) . '</h2>';
 }
 
-function sb_color_row( $s, $key, $label ) {
+function sb_color_row( $s, $key, $label, $description = '', $optional = false ) {
 	$value = isset( $s[ $key ] ) ? $s[ $key ] : '';
-	echo '<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">';
-	echo '<label style="width:180px;font-weight:500">' . esc_html( $label ) . '</label>';
+	echo '<div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:14px">';
+	echo '<div style="width:180px;padding-top:4px">';
+	echo '<label style="font-weight:500;display:block">' . esc_html( $label );
+	if ( $optional ) echo ' <span style="font-weight:400;color:#888;font-size:12px">' . esc_html__( '(optional)', 'simply-branded' ) . '</span>';
+	echo '</label>';
+	if ( $description ) echo '<span class="description" style="font-size:12px;line-height:1.3;display:block;margin-top:2px">' . esc_html( $description ) . '</span>';
+	echo '</div>';
 	echo '<input type="text" name="sb[' . esc_attr( $key ) . ']" value="' . esc_attr( $value ) . '" class="sb-color-picker" data-default-color="' . esc_attr( $value ) . '">';
 	echo '</div>';
 }
