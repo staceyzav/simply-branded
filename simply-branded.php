@@ -5,14 +5,14 @@
  * Description: Brand configuration for Simply Design sites. Set your brand palette once — every Simply plugin picks it up automatically via CSS tokens.
  * Author:      Simply Design
  * Author URI:  https://simplydesign.com
- * Version:     2.0.2
+ * Version:     2.0.3
  * License:     GPL-2.0-or-later
  * Text Domain: simply-branded
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SB_VERSION', '2.0.2' );
+define( 'SB_VERSION', '2.0.3' );
 define( 'SB_OPTION',  'simply_branded' );
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-github-updater.php';
@@ -31,7 +31,9 @@ function sb_defaults() {
 		'highlight2'       => '',
 
 		// Buttons & shapes
-		'border_radius'    => 0,
+		'border_radius'       => 0,
+		'button_border_width' => 0,
+		'button_border_color' => '',
 
 		// Fonts
 		'font_display'     => '',
@@ -85,6 +87,8 @@ function sb_output_css() {
 
 		// Shapes
 		'--client-radius'                      => $radius . 'px',
+		'--client-btn-border-width'            => absint( $s['button_border_width'] ) . 'px',
+		'--client-btn-border-color'            => ! empty( $s['button_border_color'] ) ? $s['button_border_color'] : $hl,
 
 		// Section — Dark
 		'--client-section-dark-bg'             => $dark,
@@ -194,7 +198,9 @@ function sb_save_settings() {
 		$data[ $key ] = sanitize_text_field( wp_unslash( $_POST['sb'][ $key ] ?? '' ) );
 	}
 
-	$data['border_radius'] = absint( $_POST['sb']['border_radius'] ?? 0 );
+	$data['border_radius']       = absint( $_POST['sb']['border_radius']       ?? 0 );
+	$data['button_border_width'] = absint( $_POST['sb']['button_border_width'] ?? 0 );
+	$data['button_border_color'] = sanitize_hex_color( $_POST['sb']['button_border_color'] ?? '' ) ?: '';
 	$data['custom_css']    = wp_strip_all_tags( wp_unslash( $_POST['sb']['custom_css'] ?? '' ) );
 
 	// Required fields fall back to defaults if left blank

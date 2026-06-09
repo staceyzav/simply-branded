@@ -37,6 +37,16 @@
 		</div>
 	</div>
 
+	<div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+		<label style="width:180px;font-weight:500"><?php esc_html_e( 'Button border width', 'simply-branded' ); ?></label>
+		<div style="display:flex;align-items:center;gap:6px">
+			<input type="number" name="sb[button_border_width]" value="<?php echo esc_attr( $s['button_border_width'] ); ?>" min="0" max="10" style="width:70px">
+			<span class="description">px &nbsp;(0 = no border)</span>
+		</div>
+	</div>
+
+	<?php sb_color_row( $s, 'button_border_color', __( 'Button border color', 'simply-branded' ), __( 'Leave empty to use the button background color', 'simply-branded' ), true ); ?>
+
 </div><!-- #sb-tab-colors -->
 
 
