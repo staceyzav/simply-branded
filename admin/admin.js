@@ -79,6 +79,18 @@ jQuery( function( $ ) {
 			var $textarea = $( '#sb-custom-font-css' );
 			var current   = $textarea.val().trim();
 			$textarea.val( current ? current + '\n\n' + snippets.join( '\n\n' ) : snippets.join( '\n\n' ) );
+
+			var count    = snippets.length;
+			var families = [ ...new Set( snippets.map( function( s ) {
+				var m = s.match( /font-family:\s*'([^']+)'/ );
+				return m ? m[1] : '';
+			} ).filter( Boolean ) ) ];
+
+			$( '#sb-font-upload-notice-text' ).text(
+				count + ' font file' + ( count > 1 ? 's' : '' ) + ' added' +
+				( families.length ? ' (' + families.join( ', ' ) + ').' : '.' )
+			);
+			$( '#sb-font-upload-notice' ).show();
 		} );
 
 		frame.open();

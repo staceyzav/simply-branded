@@ -5,14 +5,14 @@
  * Description: Brand configuration for Simply Design sites. Set your brand palette once — every Simply plugin picks it up automatically via CSS tokens.
  * Author:      Simply Design
  * Author URI:  https://simplydesign.com
- * Version:     2.1.0
+ * Version:     2.1.1
  * License:     GPL-2.0-or-later
  * Text Domain: simply-branded
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SB_VERSION', '2.1.0' );
+define( 'SB_VERSION', '2.1.1' );
 define( 'SB_OPTION',  'simply_branded' );
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-github-updater.php';
@@ -241,7 +241,7 @@ function sb_save_settings() {
 	}
 
 	foreach ( $text_fields as $key ) {
-		$data[ $key ] = sanitize_text_field( wp_unslash( $_POST['sb'][ $key ] ?? '' ) );
+		$data[ $key ] = rtrim( sanitize_text_field( wp_unslash( $_POST['sb'][ $key ] ?? '' ) ), ';' );
 	}
 
 	$data['border_radius']       = absint( $_POST['sb']['border_radius']       ?? 0 );

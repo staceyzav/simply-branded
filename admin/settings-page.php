@@ -66,14 +66,24 @@
 	<?php sb_text_row( $s, 'typekit_id', __( 'Adobe Fonts Kit ID', 'simply-branded' ), 'abc1def', __( 'Enter only the kit ID — the short code in your embed URL: use.typekit.net/<strong>KITID</strong>.css. Not the full URL or tag.', 'simply-branded' ) ); ?>
 
 	<div style="margin-top:16px">
-		<label style="display:block;font-weight:500;margin-bottom:4px"><?php esc_html_e( 'Self-Hosted Font CSS', 'simply-branded' ); ?></label>
-		<p class="description" style="margin-bottom:6px"><?php esc_html_e( 'Paste your @font-face block here for fonts you host yourself. Upload the font files (woff2/woff) to your site via SFTP or the Media Library, then reference their URLs below. Do not include <style> tags.', 'simply-branded' ); ?></p>
-		<div style="margin-bottom:6px">
+		<label style="display:block;font-weight:500;margin-bottom:6px"><?php esc_html_e( 'Self-Hosted Font CSS', 'simply-branded' ); ?></label>
+		<div style="background:#f0f6fc;border-left:4px solid #72aee6;padding:10px 14px;margin-bottom:12px;max-width:680px">
+			<p style="margin:0 0 4px;font-weight:500"><?php esc_html_e( 'How this works:', 'simply-branded' ); ?></p>
+			<ol style="margin:0;padding-left:20px">
+				<li><?php esc_html_e( 'Click Upload Font File and select your font files (.woff2, .otf, .ttf).', 'simply-branded' ); ?></li>
+				<li><?php esc_html_e( 'The @font-face code will appear automatically in the box below — weight and style are detected from the filename.', 'simply-branded' ); ?></li>
+				<li><?php esc_html_e( 'Copy the font family name from the generated code and enter it in the Display, Primary, or Script font fields above.', 'simply-branded' ); ?></li>
+				<li><?php esc_html_e( 'Click Save Brand Settings.', 'simply-branded' ); ?></li>
+			</ol>
+		</div>
+		<div style="margin-bottom:8px">
 			<button type="button" id="sb-font-upload" class="button"><?php esc_html_e( 'Upload Font File', 'simply-branded' ); ?></button>
-			<span class="description" style="margin-left:8px"><?php esc_html_e( 'Uploads to /wp-content/uploads/fonts/ and adds the @font-face snippet below.', 'simply-branded' ); ?></span>
+		</div>
+		<div id="sb-font-upload-notice" style="display:none;margin-bottom:8px;padding:8px 12px;background:#edfaef;border-left:4px solid #00a32a;max-width:680px">
+			<span id="sb-font-upload-notice-text"></span>
+			<strong><?php esc_html_e( ' Now copy the font family name from the code below and enter it in the Display, Primary, or Script font field above.', 'simply-branded' ); ?></strong>
 		</div>
 		<textarea id="sb-custom-font-css" name="sb[custom_font_css]" rows="8" style="width:100%;max-width:680px;font-family:monospace;font-size:12px"><?php echo esc_textarea( $s['custom_font_css'] ); ?></textarea>
-		<p class="description" style="margin-top:4px"><?php esc_html_e( 'You can also paste @font-face CSS directly. Do not include <style> tags.', 'simply-branded' ); ?></p>
 	</div>
 
 </div><!-- #sb-tab-fonts -->
