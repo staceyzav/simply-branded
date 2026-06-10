@@ -62,8 +62,19 @@
 
 	<?php sb_section_header( __( 'Font Loading', 'simply-branded' ) ); ?>
 
-	<?php sb_text_row( $s, 'google_fonts_url', __( 'Google Fonts URL',   'simply-branded' ), __( 'Paste the full URL from fonts.google.com embed code', 'simply-branded' ) ); ?>
-	<?php sb_text_row( $s, 'typekit_id',       __( 'Adobe Fonts Kit ID', 'simply-branded' ), __( 'The kit ID from use.typekit.net/KITID.js', 'simply-branded' ) ); ?>
+	<?php sb_text_row( $s, 'google_fonts_url', __( 'Font Stylesheet URL', 'simply-branded' ), 'https://fonts.googleapis.com/css2?family=...', __( 'Paste just the URL from the &lt;link href="…"&gt; embed code — not the whole tag. Works with Google Fonts, cdnfonts.com, or any CSS-based font service. Example: https://fonts.cdnfonts.com/css/berthold-city', 'simply-branded' ) ); ?>
+	<?php sb_text_row( $s, 'typekit_id', __( 'Adobe Fonts Kit ID', 'simply-branded' ), 'abc1def', __( 'Enter only the kit ID — the short code in your embed URL: use.typekit.net/<strong>KITID</strong>.css. Not the full URL or tag.', 'simply-branded' ) ); ?>
+
+	<div style="margin-top:16px">
+		<label style="display:block;font-weight:500;margin-bottom:4px"><?php esc_html_e( 'Self-Hosted Font CSS', 'simply-branded' ); ?></label>
+		<p class="description" style="margin-bottom:6px"><?php esc_html_e( 'Paste your @font-face block here for fonts you host yourself. Upload the font files (woff2/woff) to your site via SFTP or the Media Library, then reference their URLs below. Do not include <style> tags.', 'simply-branded' ); ?></p>
+		<div style="margin-bottom:6px">
+			<button type="button" id="sb-font-upload" class="button"><?php esc_html_e( 'Upload Font File', 'simply-branded' ); ?></button>
+			<span class="description" style="margin-left:8px"><?php esc_html_e( 'Uploads to /wp-content/uploads/fonts/ and adds the @font-face snippet below.', 'simply-branded' ); ?></span>
+		</div>
+		<textarea id="sb-custom-font-css" name="sb[custom_font_css]" rows="8" style="width:100%;max-width:680px;font-family:monospace;font-size:12px"><?php echo esc_textarea( $s['custom_font_css'] ); ?></textarea>
+		<p class="description" style="margin-top:4px"><?php esc_html_e( 'You can also paste @font-face CSS directly. Do not include <style> tags.', 'simply-branded' ); ?></p>
+	</div>
 
 </div><!-- #sb-tab-fonts -->
 
@@ -100,10 +111,11 @@ function sb_color_row( $s, $key, $label, $description = '', $optional = false ) 
 	echo '</div>';
 }
 
-function sb_text_row( $s, $key, $label, $placeholder = '' ) {
+function sb_text_row( $s, $key, $label, $placeholder = '', $description = '' ) {
 	$value = isset( $s[ $key ] ) ? $s[ $key ] : '';
 	echo '<div style="margin-bottom:12px">';
 	echo '<label style="display:block;font-weight:500;margin-bottom:4px">' . esc_html( $label ) . '</label>';
 	echo '<input type="text" name="sb[' . esc_attr( $key ) . ']" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr( $placeholder ) . '" style="width:100%;max-width:500px">';
+	if ( $description ) echo '<p class="description" style="margin-top:4px">' . wp_kses( $description, [ 'strong' => [] ] ) . '</p>';
 	echo '</div>';
 }

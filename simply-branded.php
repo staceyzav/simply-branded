@@ -5,14 +5,14 @@
  * Description: Brand configuration for Simply Design sites. Set your brand palette once — every Simply plugin picks it up automatically via CSS tokens.
  * Author:      Simply Design
  * Author URI:  https://simplydesign.com
- * Version:     2.0.6
+ * Version:     2.1.0
  * License:     GPL-2.0-or-later
  * Text Domain: simply-branded
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SB_VERSION', '2.0.6' );
+define( 'SB_VERSION', '2.1.0' );
 define( 'SB_OPTION',  'simply_branded' );
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-github-updater.php';
@@ -41,6 +41,7 @@ function sb_defaults() {
 		'font_script'      => '',
 		'google_fonts_url' => '',
 		'typekit_id'       => '',
+		'custom_font_css'  => '',
 
 		// Custom CSS
 		'custom_css'       => '',
@@ -129,9 +130,11 @@ function sb_output_css() {
 		echo "<style id=\"simply-branded-custom\">\n" . wp_strip_all_tags( $s['custom_css'] ) . "\n</style>\n";
 	}
 
+	if ( ! empty( $s['custom_font_css'] ) ) {
+		echo "<style id=\"simply-branded-fonts\">\n" . wp_strip_all_tags( $s['custom_font_css'] ) . "\n</style>\n";
+	}
+
 	if ( ! empty( $s['google_fonts_url'] ) ) {
-		echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
-		echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
 		echo '<link href="' . esc_url( $s['google_fonts_url'] ) . '" rel="stylesheet">' . "\n";
 	}
 
@@ -172,7 +175,50 @@ add_action( 'admin_enqueue_scripts', 'sb_admin_enqueue' );
 function sb_admin_enqueue( $hook ) {
 	if ( $hook !== 'appearance_page_simply-branded' ) return;
 	wp_enqueue_style( 'wp-color-picker' );
+	wp_enqueue_media();
 	wp_enqueue_script( 'sb-admin', plugin_dir_url( __FILE__ ) . 'admin/admin.js', [ 'wp-color-picker', 'jquery' ], SB_VERSION, true );
+}
+
+// Allow font file uploads via Media Library
+add_filter( 'upload_mimes', 'sb_font_mimes' );
+function sb_font_mimes( $mimes ) {
+	$mimes['woff']  = 'font/woff';
+	$mimes['woff2'] = 'font/woff2';
+	$mimes['ttf']   = 'font/ttf';
+	$mimes['otf']   = 'font/otf';
+	return $mimes;
+}
+
+// WP 4.7.1+ verifies file content — always override for font extensions so
+// they appear cleanly in the media library without an "not allowed" error
+add_filter( 'wp_check_filetype_and_ext', 'sb_font_filetype', 10, 4 );
+function sb_font_filetype( $data, $file, $filename, $mimes ) {
+	$font_types = [
+		'woff'  => 'font/woff',
+		'woff2' => 'font/woff2',
+		'ttf'   => 'font/ttf',
+		'otf'   => 'font/otf',
+	];
+	$ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+	if ( isset( $font_types[ $ext ] ) ) {
+		$data['ext']  = $ext;
+		$data['type'] = $font_types[ $ext ];
+	}
+	return $data;
+}
+
+// Route font file uploads into /wp-content/uploads/fonts/
+add_filter( 'upload_dir', 'sb_font_upload_dir' );
+function sb_font_upload_dir( $dirs ) {
+	if ( isset( $_FILES['async-upload']['name'] ) ) {
+		$ext = strtolower( pathinfo( $_FILES['async-upload']['name'], PATHINFO_EXTENSION ) );
+		if ( in_array( $ext, [ 'woff', 'woff2', 'ttf', 'otf' ], true ) ) {
+			$dirs['subdir'] = '/fonts';
+			$dirs['path']   = $dirs['basedir'] . '/fonts';
+			$dirs['url']    = $dirs['baseurl'] . '/fonts';
+		}
+	}
+	return $dirs;
 }
 
 // ── Settings save ─────────────────────────────────────────────────────
@@ -201,7 +247,8 @@ function sb_save_settings() {
 	$data['border_radius']       = absint( $_POST['sb']['border_radius']       ?? 0 );
 	$data['button_border_width'] = absint( $_POST['sb']['button_border_width'] ?? 0 );
 	$data['button_border_color'] = sanitize_hex_color( $_POST['sb']['button_border_color'] ?? '' ) ?: '';
-	$data['custom_css']    = wp_strip_all_tags( wp_unslash( $_POST['sb']['custom_css'] ?? '' ) );
+	$data['custom_font_css'] = wp_strip_all_tags( wp_unslash( $_POST['sb']['custom_font_css'] ?? '' ) );
+	$data['custom_css']      = wp_strip_all_tags( wp_unslash( $_POST['sb']['custom_css']      ?? '' ) );
 
 	// Required fields fall back to defaults if left blank
 	$defaults = sb_defaults();
