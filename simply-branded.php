@@ -5,14 +5,14 @@
  * Description: Brand configuration for Simply Design sites. Set your brand palette once — every Simply plugin picks it up automatically via CSS tokens.
  * Author:      Simply Design
  * Author URI:  https://simplydesign.com
- * Version:     2.0.5
+ * Version:     2.0.6
  * License:     GPL-2.0-or-later
  * Text Domain: simply-branded
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SB_VERSION', '2.0.5' );
+define( 'SB_VERSION', '2.0.6' );
 define( 'SB_OPTION',  'simply_branded' );
 
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-github-updater.php';
